@@ -1,13 +1,18 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Rg.Plugins.Popup.Services;
+using Plugin.BLE;
+using Plugin.BLE.Abstractions.Contracts;
+using SampleBluetooth.DependencyServices;
 using Xamarin.Forms;
 
 namespace SampleBluetooth
 {
     public class BluetoothDevicesPageViewModel : ViewModelBase
     {
-        private IPageNavService _pageService;
+        private IBluetoothLE _ble;
+        private Plugin.BLE.Abstractions.Contracts.IAdapter _adapter;
         private CancellationTokenSource _bluetoothWorkCancellationTokenSource;
 
         #region commands
@@ -15,15 +20,29 @@ namespace SampleBluetooth
         #endregion
         
 
-        public BluetoothDevicesPageViewModel(IPageNavService pageNavService)
+        public BluetoothDevicesPageViewModel()
         {
             AddDeviceCommand = new Command(AddDeviceButtonClicked);
             _bluetoothWorkCancellationTokenSource = new CancellationTokenSource();
         }
+        
+        private async Task<bool> HasAndRequestBluetoothPermissionAsync()
+        {
+            var hasBluetoothPermission = await CustomDependencyServices.AppHasBluetoothPermission();
+            if (!hasBluetoothPermission)
+            {
+                await CustomDependencyServices.RequestBluetoothPermission();
+                hasBluetoothPermission = await CustomDependencyServices.AppHasBluetoothPermission();
+            }
+            return hasBluetoothPermission;
+        }
 
         private async void AddDeviceButtonClicked()
         {
-            await _pageService.PushAsync(PopupNavigation.Instance, new AddBluetoothDevicePage());
+            this._ble = CrossBluetoothLE.Current;
+            this._adapter = _ble.Adapter;
+            var res = await HasAndRequestBluetoothPermissionAsync();
+            Console.WriteLine(res);
         }
 
     }

@@ -9,7 +9,7 @@ namespace SampleBluetooth
         public BluetoothDevicesPage()
         {
             InitializeComponent();
-            BindingContext = new BluetoothDevicesPageViewModel(new PageNavService(this));
+            BindingContext = new BluetoothDevicesPageViewModel();
         }
 
         protected override void OnAppearing()

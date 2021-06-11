@@ -144,14 +144,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Acr.UserDialogs">
-      <Version>7.1.0.514</Version>
-    </PackageReference>
     <PackageReference Include="Plugin.BLE">
       <Version>2.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Rg.Plugins.Popup">
-      <Version>2.0.0.5</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp">
       <Version>1.68.0</Version>

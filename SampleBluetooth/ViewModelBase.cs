@@ -8,8 +8,6 @@ namespace SampleBluetooth
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
-        public ViewModelType ModelType { get; set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
